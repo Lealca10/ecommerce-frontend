@@ -1,11 +1,33 @@
 // Seleção de elementos
 const productList = document.getElementById('product-list');
 const productCount = document.getElementById('product-count');
+const searchButton = document.getElementById('searchButton');
+const sortBySelect = document.getElementById('sortBy');
+const searchInput = document.getElementById('search');
 
 // Função para buscar produtos na API
 async function fetchProducts() {
     try {
-        const response = await fetch('http://localhost:8080/produto');
+        // Captura a ordenação selecionada
+        const selectedSort = sortBySelect.value;
+        let sortBy = '';
+        let order = '';
+
+        // Define os valores de `sortBy` e `order` com base na opção selecionada
+        if (selectedSort.includes('-')) {
+            const [field, direction] = selectedSort.split('-');
+            sortBy = field;
+            order = direction;
+        }
+
+        // Cria a URL com os parâmetros
+        const url = new URL('http://localhost:8080/produto');
+        if (sortBy && order) {
+            url.searchParams.append('sortBy', sortBy);
+            url.searchParams.append('order', order);
+        }
+
+        const response = await fetch(url);
         if (!response.ok) {
             throw new Error(`Erro: ${response.status}`);
         }
@@ -31,7 +53,7 @@ function renderProducts(products) {
 
         card.innerHTML = `
             <div class="card h-100">
-                <img src="${product.imagem}" class="card-img-top" alt="${product.mome}">
+                <img src="${product.imagem}" class="card-img-top" alt="${product.nome}">
                 <div class="card-body">
                     <h5 class="card-title">${product.nome}</h5>
                     <p class="card-text-muted">${product.descricao}</p>
@@ -47,6 +69,9 @@ function renderProducts(products) {
     // Atualiza o contador de produtos
     productCount.textContent = `Total de produtos exibidos: ${products.length}`;
 }
+
+// Adiciona evento ao botão de busca
+searchButton.addEventListener('click', fetchProducts);
 
 // Carrega os produtos ao abrir a página
 fetchProducts();

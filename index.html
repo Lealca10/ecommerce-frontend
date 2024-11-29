@@ -19,11 +19,22 @@
     <div class="container my-4">
         <!-- Campo de Pesquisa com Ícone de Lupa -->
         <div class="input-group mb-3">
-            <input type="text" class="form-control" placeholder="Pesquisar produtos...">
-            <div class="input-group-append">
-                <span class="input-group-text"><i class="fas fa-search"></i></span>
-            </div>
-        </div>
+            <input type="text" id="search" class="form-control" placeholder="Pesquisar produtos...">
+
+    <!-- Combobox para ordenação -->
+    <select id="sortBy" class="form-control">
+        <option value="" selected>Ordenar por...</option>
+        <option value="nome-asc">Nome (A-Z)</option>
+        <option value="nome-desc">Nome (Z-A)</option>
+        <option value="preco-asc">Preço (Crescente)</option>
+        <option value="preco-desc">Preço (Decrescente)</option>
+    </select>
+
+    <!-- Botão de pesquisa -->
+    <div class="input-group-append">
+        <button id="searchButton" class="btn btn-primary" type="button">Buscar</button>
+    </div>
+</div>
 
         <!-- Listagem de Produtos -->
         <div id="product-list" class="row"></div>
