@@ -8,8 +8,9 @@ const searchInput = document.getElementById('search');
 // Função para buscar produtos na API
 async function fetchProducts() {
     try {
-        // Captura a ordenação selecionada
+        // Captura os valores dos inputs
         const selectedSort = sortBySelect.value;
+        const searchQuery = searchInput.value.trim(); // Captura o valor da barra de pesquisa
         let sortBy = '';
         let order = '';
 
@@ -22,6 +23,9 @@ async function fetchProducts() {
 
         // Cria a URL com os parâmetros
         const url = new URL('http://localhost:8080/produto');
+        if (searchQuery) {
+            url.searchParams.append('filter', searchQuery); // Adiciona o filtro (texto da pesquisa)
+        }
         if (sortBy && order) {
             url.searchParams.append('sortBy', sortBy);
             url.searchParams.append('order', order);
@@ -50,7 +54,7 @@ function renderProducts(products) {
         // Cria o card do produto usando classes do Bootstrap
         const card = document.createElement('div');
         card.classList.add('col-md-3', 'mb-4');
-
+    
         card.innerHTML = `
             <div class="card h-100">
                 <img src="${product.imagem}" class="card-img-top" alt="${product.nome}">
@@ -61,7 +65,7 @@ function renderProducts(products) {
                 </div>
             </div>
         `;
-
+    
         // Adiciona o card na lista de produtos
         productList.appendChild(card);
     });
