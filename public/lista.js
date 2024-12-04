@@ -51,13 +51,15 @@ function renderProducts(products) {
     productList.innerHTML = '';
 
     products.forEach(product => {
+
+        console.log('Produto:', product.nome, 'Imagem:', product.imagem);
         // Cria o card do produto usando classes do Bootstrap
         const card = document.createElement('div');
         card.classList.add('col-md-3', 'mb-4');
-    
+        
         card.innerHTML = `
             <div class="card h-100">
-                <img src="${product.imagem}" class="card-img-top" alt="${product.nome}">
+                <img src="${product.imagemString}" class="card-img-top" alt="${product.nome}">
                 <div class="card-body">
                     <h5 class="card-title">${product.nome}</h5>
                     <p class="card-text-muted">${product.descricao}</p>
